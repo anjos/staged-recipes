@@ -1,0 +1,44 @@
+context:
+  version: 1.004
+
+package:
+  name: perl-io-html
+  version: ${{ version }}
+
+source:
+  url: https://cpan.metacpan.org/authors/id/C/CJ/CJM/IO-HTML-${{ version }}.tar.gz
+  sha256: c87b2df59463bbf2c39596773dfb5c03bde0f7e1051af339f963f58c1cbd8bf5
+
+build:
+  number: 0
+  noarch: generic
+  script: |
+    perl Makefile.PL INSTALLDIRS=site NO_PERLLOCAL=1 NO_PACKLIST=1
+    make
+    make test
+    make install VERBINST=1
+
+requirements:
+  build:
+    - make
+  host:
+    - perl  # requires perl feedstock update for all versions
+  run:
+    - perl
+
+tests:
+  - perl:
+      uses:
+        - IO::HTML
+
+about:
+  license: Artistic-1.0-Perl OR GPL-1.0-or-later
+  license_file: LICENSE
+  summary: Open an HTML file with automatic charset detection
+  homepage: http://metacpan.org/pod/IO::HTML
+
+extra:
+  recipe-maintainers:
+    - danielnachun
+    - anjos
+    - conda-forge/perl-packagers
